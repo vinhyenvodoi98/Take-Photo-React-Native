@@ -1,14 +1,36 @@
 import React, { Component } from 'react';
-import { AppRegistry, Image } from 'react-native';
+import { Text, View } from 'react-native';
 
-export default class Bananas extends Component {
+class Blink extends Component {
+  componentDidMount() {
+    // Toggle the state every second
+    setInterval(
+      () => this.setState((previousState) => ({ isShowingText: !previousState.isShowingText })),
+      1000
+    );
+  }
+
+  //state object
+  state = { isShowingText: true };
+
   render() {
-    let pic = {
-      uri: 'https://upload.wikimedia.org/wikipedia/commons/d/de/Bananavarieties.jpg'
-    };
-    return <Image source={pic} style={{ width: 160, height: 568 }} />;
+    if (!this.state.isShowingText) {
+      return null;
+    }
+
+    return <Text>{this.props.text}</Text>;
   }
 }
 
-// skip this line if using Create React Native App
-AppRegistry.registerComponent('AwesomeProject', () => Bananas);
+export default class BlinkApp extends Component {
+  render() {
+    return (
+      <View>
+        <Blink text='I love to blink' />
+        <Blink text='Yes blinking is so great' />
+        <Blink text='Why did they ever take this out of HTML' />
+        <Blink text='Look at me look at me look at me' />
+      </View>
+    );
+  }
+}
