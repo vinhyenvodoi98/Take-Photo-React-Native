@@ -17,7 +17,6 @@ export default class GalleryScreen extends React.Component {
   };
 
   componentDidMount = async () => {
-    console.log('sd');
     const photos = await FileSystem.readDirectoryAsync(PHOTOS_DIR);
     this.setState({ photos });
   };

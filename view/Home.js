@@ -105,9 +105,7 @@ export default class Home extends React.Component {
                     style={{
                       flex: 1
                     }}
-                    onPress={() => {
-                      this.toggleView.bind(this);
-                    }}>
+                    onPress={this.toggleView}>
                     <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>GALLERY</Text>
                   </TouchableOpacity>
                 </View>
