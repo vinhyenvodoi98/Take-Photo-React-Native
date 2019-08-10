@@ -1,10 +1,10 @@
-import React from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
-import * as Permissions from 'expo-permissions';
-import * as FileSystem from 'expo-file-system';
-import { Camera } from 'expo-camera';
+import React from "react";
+import { Text, View, TouchableOpacity } from "react-native";
+import * as Permissions from "expo-permissions";
+import * as FileSystem from "expo-file-system";
+import { Camera } from "expo-camera";
 
-import GalleryScreen from './GalleryScreen';
+import GalleryScreen from "./GalleryScreen";
 
 export default class Home extends React.Component {
   state = {
@@ -16,13 +16,16 @@ export default class Home extends React.Component {
 
   async componentWillMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({ hasCameraPermission: status === 'granted' });
+    this.setState({ hasCameraPermission: status === "granted" });
   }
 
-  componentDidMount() {
-    FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + 'photos').catch((e) => {
-      console.log(e, 'Directory exists');
-    });
+  async componentDidMount() {
+    var isExits = await FileSystem.getInfoAsync(FileSystem.documentDirectory + "photos");
+    if (isExits.exists === false) {
+      FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + "photos").catch((e) => {
+        console.log(e, "Directory exists");
+      });
+    }
   }
 
   takePicture = () => {
@@ -61,16 +64,16 @@ export default class Home extends React.Component {
             <View
               style={{
                 flex: 1,
-                backgroundColor: 'transparent',
-                flexDirection: 'column'
+                backgroundColor: "transparent",
+                flexDirection: "column"
               }}>
               <View style={{ flex: 5 }} />
 
               <View
                 style={{
                   flex: 1,
-                  flexDirection: 'row',
-                  justifyContent: 'space-evenly'
+                  flexDirection: "row",
+                  justifyContent: "space-evenly"
                   // alignSelf: 'flex-end'
                 }}>
                 <View>
@@ -86,7 +89,7 @@ export default class Home extends React.Component {
                             : Camera.Constants.Type.back
                       });
                     }}>
-                    <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}> FLIP </Text>
+                    <Text style={{ fontSize: 18, marginBottom: 10, color: "white" }}> FLIP </Text>
                   </TouchableOpacity>
                 </View>
                 <View>
@@ -97,7 +100,7 @@ export default class Home extends React.Component {
                     onPress={() => {
                       this.takePicture();
                     }}>
-                    <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}> SNAP </Text>
+                    <Text style={{ fontSize: 18, marginBottom: 10, color: "white" }}> SNAP </Text>
                   </TouchableOpacity>
                 </View>
                 <View>
@@ -106,7 +109,7 @@ export default class Home extends React.Component {
                       flex: 1
                     }}
                     onPress={this.toggleView}>
-                    <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>GALLERY</Text>
+                    <Text style={{ fontSize: 18, marginBottom: 10, color: "white" }}>GALLERY</Text>
                   </TouchableOpacity>
                 </View>
               </View>
